@@ -16,35 +16,39 @@ int main(int argc, char** argv) {
 
     int64_t reps = 0;
 
-    while(std::chrono::high_resolution_clock::now() - start < 1000ms) {
+    while(reps < 1000000) {
         auto result = boost::replace_all_copy(test, "fox", "bunny");
         reps++;
     }
 
-    std::cout << "boost::replace_all:   " << reps << std::endl;
+    std::chrono::duration<double> diff = std::chrono::high_resolution_clock::now() - start;
+
+    std::cout << "boost::replace_all:   " << diff.count() << std::endl;
 
     reps = 0;
     start = std::chrono::high_resolution_clock::now();
     boost::regex bre("fox");
 
-    while(std::chrono::high_resolution_clock::now() - start < 1000ms) {
+    while(reps < 1000000) {
         auto result = boost::regex_replace(test, bre, "bunny");
         reps++;
     }
 
-    std::cout << "boost::regex_replace: " << reps << std::endl;
+    diff = std::chrono::high_resolution_clock::now() - start;
+    std::cout << "boost::regex_replace: " << diff.count() << std::endl;
 
     std::regex re("fox");
     reps = 0;
     start = std::chrono::high_resolution_clock::now();
 
 
-    while(std::chrono::high_resolution_clock::now() - start < 1000ms) {
+    while(reps < 1000000) {
         auto result = std::regex_replace(test, re, "bunny");
         reps++;
     }
 
-    std::cout << "std::regex_replace:   " << reps << std::endl;
+    diff = std::chrono::high_resolution_clock::now() - start;
+    std::cout << "std::regex_replace:   " << diff.count() << std::endl;
 
     std::cout << test << std::endl;
 
