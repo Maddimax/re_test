@@ -17,11 +17,13 @@ std::regex re(search);
 
 int maxreps = 1000000;
 
+using test_clock = std::chrono::steady_clock;
+
 int measureTime(std::function<void()> algo) {
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = test_clock::now();
     int reps = 0;
 
-    while(std::chrono::high_resolution_clock::now() - start < 1000ms) {
+    while(test_clock::now() - start < 1000ms) {
         algo();
         reps++;
     }
@@ -30,13 +32,13 @@ int measureTime(std::function<void()> algo) {
 }
 
 double measureReps(std::function<void()> algo, int reps) {
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = test_clock::now();
     while(reps > 0) {
         reps--;
         algo();
     }
 
-     std::chrono::duration<double> diff = std::chrono::high_resolution_clock::now() - start;
+     std::chrono::duration<double> diff = test_clock::now() - start;
 
      return diff.count();
 }
